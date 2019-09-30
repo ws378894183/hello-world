@@ -23,11 +23,5 @@ public class EurekaClientApplication {
     public static void main(final String[] args) {
         SpringApplication.run(EurekaClientApplication.class, args);
     }
-    @Value("${server.port}")
-    private String port;
-    
-    @GetMapping("/client/port")
-    public String getPort() {
-    	return this.port;
-    }
+   
 }

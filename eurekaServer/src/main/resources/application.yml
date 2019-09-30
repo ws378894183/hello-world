@@ -17,6 +17,7 @@ eureka:
   client:
     # 是否将eureka自身作为应用注册到eureka注册中心,独立启动时，需设定为false
     registerWithEureka: false
+    fetchRegistry: false
     serviceUrl:
       # 部署到tomcat时，defaultZone需要配置为如下格式 http://host:port/${server.context-path}/eureka
       # 配置访问用户名密码： defaultZone: http://user:password@localhost:8761/eureka

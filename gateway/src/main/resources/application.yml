@@ -1,0 +1,24 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: gateway
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+zuul:
+  sslHostnameValidationEnabled: false
+  routes:
+    drawClient:
+      sensitiveHeaders: Access-Control-Allow-Origin,Access-Control-Allow-Methods
+      path: /drawClient/**
+      service-id: drawClient
+    eurekaClient:
+      sensitiveHeaders: Access-Control-Allow-Origin,Access-Control-Allow-Methods
+      path: /eurekaClient/**
+      service-id: eurekaClient
