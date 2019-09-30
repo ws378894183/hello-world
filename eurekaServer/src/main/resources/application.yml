@@ -1,0 +1,27 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    # 使用ip地址而不是主机名进行注册
+    prefer-ip-address: true
+    
+  # 服务端配置
+    server:
+    # 是否开启自我保护，开启后，不主动踢出已关停的节点
+     enable-self-preservation: false
+    # 关停节点清理间隔
+     eviction-interval-timer-in-ms: 5000
+  
+  # 客户端配置  
+  client:
+    # 是否将eureka自身作为应用注册到eureka注册中心,独立启动时，需设定为false
+    registerWithEureka: false
+    serviceUrl:
+      # 部署到tomcat时，defaultZone需要配置为如下格式 http://host:port/${server.context-path}/eureka
+      # 配置访问用户名密码： defaultZone: http://user:password@localhost:8761/eureka
+      # 使用集群 defaultzone不能使用localhost作為訪問地址，如果有三个及以上server时，每个都需要向n-1个server进行注册
+      # defaultZone: http://admin:1@eureka2:8762/eureka,defaultZone: http://admin:1@eureka3:8763/eureka,。。。。
+      # 需要修改hosts文件。向其添加hostname对应关系。如127.0.0.1 eureka1
+      defaultZone: http://localhost:8761/eureka
+  

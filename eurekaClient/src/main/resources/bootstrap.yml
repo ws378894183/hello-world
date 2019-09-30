@@ -1,0 +1,8 @@
+spring:
+ application:
+   name: eurekaClient
+ cloud:
+   config:
+     name: eurekaClient  #文件前缀名称
+     profile: dev #服务环境名称  例如 {name}-{profile} = service-gateway-dev.yml
+     uri: http://localhost:8762
