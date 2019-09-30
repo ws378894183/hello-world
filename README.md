@@ -106,7 +106,7 @@ public class EurekaServerApplication {
 
 }
 ```
-## 3 configServer 服务配置中心（本里是读取本地配置文件），也是eurekaClient,注册到服务中心
+## 3 configServer 服务配置中心（本里是读取本地配置文件），同时将该服务注册到服务中心
 pom
 ```pom
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -179,3 +179,59 @@ public class ConfigServerApplication {
 
 }
 ```
+## 3 eurekaClient 服务消费者，去配置中心configServer读取配置
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>test</groupId>
+    <artifactId>test</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>eurekaClient</artifactId>
+  
+  <dependencies>
+	  <dependency>
+	    <groupId>org.springframework.cloud</groupId>
+	    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-config-client</artifactId>
+	</dependency>
+  </dependencies>
+</project>
+```
+bootstrap.yml 必须是这个名字，虽然和某个前端库重名
+```yml
+spring:
+ application:
+   name: eurekaClient
+ cloud:
+   config:
+     name: eurekaClient  #文件前缀名称
+     profile: dev #服务环境名称  例如 {name}-{profile} = service-gateway-dev.yml
+     uri: http://localhost:8762
+```
+注意config name和profile要和配置中心存放的配置文件名称一致
+
+主类上只需加上@EnableEurekaClient注解即可，用于注册到服务中心
+```java
+@SpringBootApplication
+@EnableEurekaClient
+@RestController
+public class EurekaClientApplication {
+
+    public static void main(final String[] args) {
+        SpringApplication.run(EurekaClientApplication.class, args);
+    }
+    @Value("${server.port}")
+    private String port;
+    
+    @GetMapping("/client/port")
+    public String getPort() {
+    	return this.port;
+    }
+}
+```
+这里加@RestController注解，只是为了测试一下是否能取到配置文件中的值
