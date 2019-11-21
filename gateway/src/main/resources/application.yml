@@ -36,3 +36,4 @@ zuul:
       sensitiveHeaders: Access-Control-Allow-Origin,Access-Control-Allow-Methods
       path: /eurekaClient/**
       service-id: eurekaClient
+##conflict
