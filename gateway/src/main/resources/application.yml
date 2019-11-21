@@ -11,6 +11,20 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
+hystrix:
+  command:
+    default:
+     execution:
+      timeout:
+       enabled: true
+      isolation:
+       thread:
+        timeoutInMilliseconds: 480000
+
+ribbon:
+    ReadTimeout: 6000000
+    ConnectTimeout: 6000000
+
 zuul:
   sslHostnameValidationEnabled: false
   routes:
