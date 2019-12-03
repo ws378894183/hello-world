@@ -1,0 +1,14 @@
+server:
+  port: 8000
+spring:
+  redis:
+    #database: 0 # Database index used by the connection factory.
+    #url: redis://user:@127.0.0.1:6379 # Connection URL. Overrides host, port, and password. User is ignored. Example: redis://user:password@example.com:6379
+    host: 127.0.0.1 # Redis server host.
+    #password: # Login password of the redis server.
+    port: 6379 # Redis server port.
+    #ssl: false # Whether to enable SSL support.
+    #timeout: 5000 # Connection timeout.
+  cache:
+    type: REDIS
+    cache-names: testKey
